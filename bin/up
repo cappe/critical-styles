@@ -1,0 +1,7 @@
+#!/bin/bash
+
+FILE_1="./docker-compose.yaml"
+
+docker-compose \
+		-f $FILE_1 \
+		up -d

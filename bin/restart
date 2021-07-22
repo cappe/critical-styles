@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Restaring services..."
+
+$PWD/bin/down
+$PWD/bin/up
