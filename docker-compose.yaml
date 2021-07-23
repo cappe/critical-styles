@@ -30,6 +30,8 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       REDIS_URL: redis://redis:6379/12
+    cap_add:
+      - SYS_ADMIN # Makes it possible to run Puppeteer
     depends_on:
       - db
       - redis
@@ -42,6 +44,8 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       REDIS_URL: redis://redis:6379/12
+    cap_add:
+      - SYS_ADMIN # Makes it possible to run Puppeteer
     depends_on:
       - db
       - redis

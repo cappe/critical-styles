@@ -15,7 +15,7 @@ const url = 'https://mestamaster.fi';
 
     page.on('response', async response => {
         if(response.request().resourceType() !== 'stylesheet') return;
-        fs.appendFileSync('../customer_data/uncritical.css', await response.text());
+        fs.appendFileSync('uncritical.css', await response.text());
     });
 
     await page.goto(url);
@@ -23,12 +23,12 @@ const url = 'https://mestamaster.fi';
 
     penthouse({
         url,
-        css: '../customer_data/uncritical.css',
+        css: 'uncritical.css',
         // cssString: 'body { color: red }'
     })
         .then(criticalCss => {
             // use the critical css
-            fs.writeFileSync('../customer_data/critical.css', criticalCss);
+            fs.writeFileSync('critical.css', criticalCss);
         })
 })();
 
