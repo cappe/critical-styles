@@ -13,13 +13,6 @@ services:
     volumes:
       - redis_data:/var/lib/redis/data
 
-  criticalcss:
-    build: ./criticalcss
-    volumes:
-      - ./criticalcss:/home/pptruser/src
-      - ./customer_data:/home/pptruser/customer_data
-#    command: google-chrome-stable
-
   web:
     build: ./app
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
