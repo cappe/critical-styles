@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const penthouse = require('penthouse');
-const url = 'https://mestamaster.fi';
+const argv = require('minimist')(process.argv.slice(2));
 
 (async () => {
     const browser = await puppeteer.launch({
@@ -11,25 +11,32 @@ const url = 'https://mestamaster.fi';
         ],
     });
 
+    const {
+        tmp_bundled_css_filename,
+        tmp_critical_css_filename,
+        tmp_dir,
+        page_url,
+    } = argv;
+
     const page = await browser.newPage();
+    const bundledCssFile = `${tmp_dir}/${tmp_bundled_css_filename}`;
+    const criticalCssFile = `${tmp_dir}/${tmp_critical_css_filename}`;
 
     page.on('response', async response => {
-        if(response.request().resourceType() !== 'stylesheet') return;
-        fs.appendFileSync('uncritical.css', await response.text());
+        if (response.request().resourceType() !== 'stylesheet') return;
+        fs.appendFileSync(bundledCssFile, await response.text());
     });
 
-    await page.goto(url);
+    await page.goto(page_url);
     await browser.close();
 
     penthouse({
-        url,
-        css: 'uncritical.css',
+        url: page_url,
+        css: bundledCssFile,
         // cssString: 'body { color: red }'
+    }).then(criticalCss => {
+        fs.writeFileSync(criticalCssFile, criticalCss);
     })
-        .then(criticalCss => {
-            // use the critical css
-            fs.writeFileSync('critical.css', criticalCss);
-        })
 })();
 
 // docker run -it --init --rm --cap-add=SYS_ADMIN \
