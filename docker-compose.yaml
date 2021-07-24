@@ -43,6 +43,35 @@ services:
       - db
       - redis
 
+  wp_db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    ports:
+      - 3306:3306
+    volumes:
+      - wp_db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:php7.4-apache
+    restart: always
+    ports:
+      - 8000:80
+    environment:
+      WORDPRESS_DB_HOST: wp_db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wp:/var/www/html
+    depends_on:
+      - wp_db
+
 volumes:
   db_data: {}
   redis_data: {}
+  wp_db_data: {}
