@@ -11,20 +11,30 @@
  * @package    Critical_Styles
  * @subpackage Critical_Styles/admin/partials
  */
+
+//Get the active tab from the $_GET param
+$default_tab = 'settings';
+$tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
 ?>
 
 <div class="wrap">
-	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-	<form action="options.php" method="post">
-		<?php
-		settings_fields( $this->plugin_name );
-		do_settings_sections( $this->plugin_name );
-		submit_button();
-		?>
-	</form>
+	<!-- Print the page title -->
+	<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+	<!-- Here are our tabs -->
+	<nav class="nav-tab-wrapper">
+		<a href="?page=critical-styles&tab=settings" class="nav-tab <?php if($tab==='settings'):?>nav-tab-active<?php endif; ?>">Settings</a>
+		<a href="?page=critical-styles&tab=setup" class="nav-tab <?php if($tab==='setup'):?>nav-tab-active<?php endif; ?>">Setup</a>
+	</nav>
+
+	<div class="tab-content">
+		<?php switch($tab) :
+			case 'setup':
+				echo 'Setup';
+				break;
+			case 'settings':
+			default:
+				echo 'Settings';
+				break;
+		endswitch; ?>
+	</div>
 </div>
-
-<?php
-
-var_dump(get_option( $this->option_name . '_position' ));
-var_dump(get_option( $this->option_name . '_day' ));
