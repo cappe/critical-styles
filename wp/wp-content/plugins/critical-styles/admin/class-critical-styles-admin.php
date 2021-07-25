@@ -147,38 +147,15 @@ class Critical_Styles_Admin {
 		);
 
 		add_settings_field(
-			$this->option_name . '_position',
-			__( 'Text position', 'critical-styles' ),
-			array( $this, $this->option_name . '_position_cb' ),
+			$this->option_name . '_api_key',
+			__( 'Your API key', 'critical-styles' ),
+			array( $this, $this->option_name . '_api_key_cb' ),
 			$this->plugin_name,
 			$this->option_name . '_general',
-			array( 'label_for' => $this->option_name . '_position' )
+			array( 'label_for' => $this->option_name . '_api_key' )
 		);
 
-		add_settings_field(
-			$this->option_name . '_day',
-			__( 'Post is outdated after', 'critical-styles' ),
-			array( $this, $this->option_name . '_day_cb' ),
-			$this->plugin_name,
-			$this->option_name . '_general',
-			array( 'label_for' => $this->option_name . '_day' )
-		);
-
-		register_setting( $this->plugin_name, $this->option_name . '_position', array( $this, $this->option_name . '_sanitize_position' ) );
-		register_setting( $this->plugin_name, $this->option_name . '_day', 'intval' );
-	}
-
-	/**
-	 * Sanitize the text position value before being saved to database
-	 *
-	 * @param  string $position $_POST value
-	 * @since  1.0.0
-	 * @return string           Sanitized value
-	 */
-	public function critical_styles_sanitize_position( $position ) {
-		if ( in_array( $position, array( 'before', 'after' ), true ) ) {
-			return $position;
-		}
+		register_setting( $this->plugin_name, $this->option_name . '_api_key' );
 	}
 
 	/**
@@ -195,20 +172,20 @@ class Critical_Styles_Admin {
 	 *
 	 * @since  1.0.0
 	 */
-	public function critical_styles_position_cb() {
-		$position = get_option( $this->option_name . '_position' );
+	public function critical_styles_api_key_cb() {
+		$option = $this->option_name . '_api_key';
+		$apiKey = get_option( $option );
 		?>
-		<fieldset>
-			<label>
-				<input type="radio" name="<?php echo $this->option_name . '_position' ?>" id="<?php echo $this->option_name . '_position' ?>" value="before" <?php checked( $position, 'before' ); ?>>
-				<?php _e( 'Before the content', 'critical-styles' ); ?>
-			</label>
-			<br>
-			<label>
-				<input type="radio" name="<?php echo $this->option_name . '_position' ?>" value="after" <?php checked( $position, 'after' ); ?>>
-				<?php _e( 'After the content', 'critical-styles' ); ?>
-			</label>
-		</fieldset>
+
+		<textarea
+			type="text"
+			id="<?= $option ?>"
+			name="<?= $option ?>"
+			placeholder="<?= __( 'Enter your API key here', 'critical-styles' ) ?>"
+			style="width: 80%;"
+			rows="3"
+		><?= $apiKey ?></textarea>
+
 		<?php
 	}
 

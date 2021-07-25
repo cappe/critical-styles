@@ -18,9 +18,8 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
 ?>
 
 <div class="wrap">
-	<!-- Print the page title -->
 	<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-	<!-- Here are our tabs -->
+
 	<nav class="nav-tab-wrapper">
 		<a href="?page=critical-styles&tab=settings" class="nav-tab <?php if($tab==='settings'):?>nav-tab-active<?php endif; ?>">Settings</a>
 		<a href="?page=critical-styles&tab=setup" class="nav-tab <?php if($tab==='setup'):?>nav-tab-active<?php endif; ?>">Setup</a>
@@ -29,7 +28,7 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
 	<div class="tab-content">
 		<?php switch($tab) :
 			case 'setup':
-				echo 'Setup';
+				include_once 'critical-styles-setup-display.php';
 				break;
 			case 'settings':
 			default:
