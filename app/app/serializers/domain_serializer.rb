@@ -1,3 +1,4 @@
 class DomainSerializer < BaseSerializer
-  attributes :url
+  attributes :id,
+             :url
 end
