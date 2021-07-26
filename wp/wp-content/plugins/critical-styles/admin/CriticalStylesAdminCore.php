@@ -20,23 +20,21 @@ class Critical_Styles_Admin_Core {
 	private string $version;
 
 	/**
-	 * The options name to be used in this plugin
+	 * Settings for this plugin.
 	 *
-	 * @since    1.0.0
-	 * @access    private
-	 * @var    string $option_name Option name of this plugin
+	 * @var Critical_Styles_Config
 	 */
-	private string $option_name = 'critical_styles';
+	private Critical_Styles_Config $config;
 
 	public function __construct( $plugin_name, $version ) {
-
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
+		$this->config      = new Critical_Styles_Config();
 	}
 
 	public function admin_init() {
 		$this->register_settings();
-//		$this->validate_api_key();
+//		$this->validate_api_token();
 	}
 
 	/**
@@ -93,8 +91,8 @@ class Critical_Styles_Admin_Core {
 	 */
 	public function admin_menu() {
 		$this->plugin_screen_hook_suffix = add_options_page(
-			__( 'Critical Styles Settings', 'critical-styles' ),
-			__( 'Critical Styles', 'critical-styles' ),
+			__( 'Critical Styles Settings', Critical_Styles_Constants::NAMESPACE() ),
+			__( 'Critical Styles', Critical_Styles_Constants::NAMESPACE() ),
 			'manage_options',
 			$this->plugin_name,
 			array( $this, 'render_settings_page' )
@@ -109,7 +107,7 @@ class Critical_Styles_Admin_Core {
 	 */
 	public function render_settings_page() {
 		include_once 'partials/critical-styles-admin-display.php';
-//		if ($this->valid_api_key) {
+//		if ($this->valid_api_token) {
 //		} else {
 //			include_once 'partials/critical-styles-subscribe.php';
 //		}
@@ -118,38 +116,53 @@ class Critical_Styles_Admin_Core {
 	public function register_settings() {
 		// Add a General section
 		add_settings_section(
-			$this->option_name . '_general',
-			__( 'General', 'critical-styles' ),
-			array( $this, $this->option_name . '_general_cb' ),
+			Critical_Styles_Constants::PLUGIN_PREFIX() . '_general',
+			__( 'General', Critical_Styles_Constants::NAMESPACE() ),
+			array( $this, Critical_Styles_Constants::PLUGIN_PREFIX() . '_general_cb' ),
 			$this->plugin_name
 		);
 
 		add_settings_field(
-			$this->option_name . '_api_key',
-			__( 'Your API key', 'critical-styles' ),
-			array( $this, $this->option_name . '_api_key_cb' ),
+			Critical_Styles_Constants::API_TOKEN_OPTION_NAME(),
+			__( 'Your API key', Critical_Styles_Constants::NAMESPACE() ),
+			array( $this, Critical_Styles_Constants::PLUGIN_PREFIX() . '_api_token_cb' ),
 			$this->plugin_name,
-			$this->option_name . '_general',
-			array( 'label_for' => $this->option_name . '_api_key' )
+			Critical_Styles_Constants::PLUGIN_PREFIX() . '_general',
+			array( 'label_for' => Critical_Styles_Constants::API_TOKEN_OPTION_NAME() )
 		);
 
-		register_setting( $this->plugin_name, $this->option_name . '_api_key' );
+		register_setting( $this->plugin_name, Critical_Styles_Constants::API_TOKEN_OPTION_NAME() );
 	}
 
-	public function critical_styles_api_key_cb() {
-		$option = $this->option_name . '_api_key';
-		$apiKey = get_option( $option );
+	public function critical_styles_api_token_cb() {
+		$option    = Critical_Styles_Constants::API_TOKEN_OPTION_NAME();
+		$api_token = Critical_Styles_Config::api_token();
 		?>
 
 		<textarea
 			type="text"
 			id="<?= $option ?>"
 			name="<?= $option ?>"
-			placeholder="<?= __( 'Enter your API key here', 'critical-styles' ) ?>"
+			placeholder="<?= __( 'Enter your API key here', Critical_Styles_Constants::NAMESPACE() ) ?>"
 			style="width: 80%;"
 			rows="3"
-		><?= $apiKey ?></textarea>
+		><?= $api_token ?></textarea>
+
+		<div>
+			<?php
+			var_dump($this->config->user->active_domains());
+			?>
+		</div>
 
 		<?php
+	}
+
+	/**
+	 * Render the text for the general section
+	 *
+	 * @since  1.0.0
+	 */
+	public function critical_styles_general_cb() {
+		echo '<p>' . __( 'Please change the settings accordingly.', Critical_Styles_Constants::NAMESPACE() ) . '</p>';
 	}
 }

@@ -116,6 +116,9 @@ class Critical_Styles_Core {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAdminCore.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAjaxHandler.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesConfig.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesConstants.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesUser.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
