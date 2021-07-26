@@ -91,7 +91,7 @@ class Critical_Styles_Admin_Core {
 	 *
 	 * @since  1.0.0
 	 */
-	public function add_as_settings_subpage() {
+	public function admin_menu() {
 		$this->plugin_screen_hook_suffix = add_options_page(
 			__( 'Critical Styles Settings', 'critical-styles' ),
 			__( 'Critical Styles', 'critical-styles' ),
