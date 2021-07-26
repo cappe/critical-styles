@@ -37,7 +37,7 @@ class Critical_Styles_Core {
 	 * @access   protected
 	 * @var      Critical_Styles_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
-	protected $loader;
+	protected Critical_Styles_Loader $loader;
 
 	/**
 	 * The unique identifier of this plugin.
@@ -46,7 +46,7 @@ class Critical_Styles_Core {
 	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
-	protected $plugin_name;
+	protected string $plugin_name;
 
 	/**
 	 * The current version of the plugin.
@@ -55,7 +55,7 @@ class Critical_Styles_Core {
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
-	protected $version;
+	protected string $version;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -193,7 +193,7 @@ class Critical_Styles_Core {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_plugin_name() {
+	public function get_plugin_name(): string {
 		return $this->plugin_name;
 	}
 
@@ -203,7 +203,7 @@ class Critical_Styles_Core {
 	 * @since     1.0.0
 	 * @return    Critical_Styles_Loader    Orchestrates the hooks of the plugin.
 	 */
-	public function get_loader() {
+	public function get_loader(): Critical_Styles_Loader {
 		return $this->loader;
 	}
 
@@ -213,7 +213,7 @@ class Critical_Styles_Core {
 	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	 */
-	public function get_version() {
+	public function get_version(): string {
 		return $this->version;
 	}
 

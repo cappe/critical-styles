@@ -8,7 +8,7 @@ class Critical_Styles_Admin_Core {
 	 * @access   private
 	 * @var      string $plugin_name The ID of this plugin.
 	 */
-	private $plugin_name;
+	private string $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -17,7 +17,7 @@ class Critical_Styles_Admin_Core {
 	 * @access   private
 	 * @var      string $version The current version of this plugin.
 	 */
-	private $version;
+	private string $version;
 
 	/**
 	 * The options name to be used in this plugin
@@ -26,7 +26,7 @@ class Critical_Styles_Admin_Core {
 	 * @access    private
 	 * @var    string $option_name Option name of this plugin
 	 */
-	private $option_name = 'critical_styles';
+	private string $option_name = 'critical_styles';
 
 	public function __construct( $plugin_name, $version ) {
 
