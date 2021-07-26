@@ -1,6 +1,6 @@
 <?php
 
-class Critical_Styles_Ajax {
+class Critical_Styles_Ajax_Handler {
 	public function __construct() {
 	}
 

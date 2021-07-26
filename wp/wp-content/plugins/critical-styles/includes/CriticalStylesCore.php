@@ -27,7 +27,7 @@
  * @subpackage Critical_Styles/includes
  * @author     Kasperi Keski-Loppi <kasperi.keski.loppi@gmail.com>
  */
-class Critical_Styles {
+class Critical_Styles_Core {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -103,25 +103,25 @@ class Critical_Styles {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-critical-styles-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesLoader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-critical-styles-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesI18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-critical-styles-admin.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-critical-styles-ajax.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAdminCore.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAjaxHandler.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-critical-styles-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/CriticalStylesPublicCore.php';
 
 		$this->loader = new Critical_Styles_Loader();
 
@@ -153,7 +153,7 @@ class Critical_Styles {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Critical_Styles_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Critical_Styles_Admin_Core( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -170,7 +170,7 @@ class Critical_Styles {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Critical_Styles_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Critical_Styles_Public_Core( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

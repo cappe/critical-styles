@@ -39,19 +39,19 @@ define( 'CRITICAL_STYLES_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-critical-styles-activator.php
+ * This action is documented in includes/CriticalStylesActivator.php
  */
 function activate_critical_styles() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-critical-styles-activator.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/CriticalStylesActivator.php';
 	Critical_Styles_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-critical-styles-deactivator.php
+ * This action is documented in includes/CriticalStylesDeactivator.php
  */
 function deactivate_critical_styles() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-critical-styles-deactivator.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/CriticalStylesDeactivator.php';
 	Critical_Styles_Deactivator::deactivate();
 }
 
@@ -62,7 +62,7 @@ register_deactivation_hook( __FILE__, 'deactivate_critical_styles' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-critical-styles.php';
+require plugin_dir_path( __FILE__ ) . 'includes/CriticalStylesCore.php';
 
 /**
  * Begins execution of the plugin.
@@ -75,7 +75,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-critical-styles.php';
  */
 function run_critical_styles() {
 
-	$plugin = new Critical_Styles();
+	$plugin = new Critical_Styles_Core();
 	$plugin->run();
 
 }

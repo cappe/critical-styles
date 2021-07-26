@@ -20,7 +20,7 @@
  * @subpackage Critical_Styles/public
  * @author     Kasperi Keski-Loppi <kasperi.keski.loppi@gmail.com>
  */
-class Critical_Styles_Public {
+class Critical_Styles_Public_Core {
 
 	/**
 	 * The ID of this plugin.
