@@ -115,6 +115,7 @@ class Critical_Styles {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-critical-styles-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-critical-styles-ajax.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -156,8 +157,8 @@ class Critical_Styles {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_options_page' );
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_as_settings_subpage' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init' );
 	}
 
 	/**

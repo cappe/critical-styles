@@ -49,6 +49,8 @@ class Critical_Styles_Admin {
 	 */
 	private $option_name = 'critical_styles';
 
+	private $valid_api_key;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -61,6 +63,16 @@ class Critical_Styles_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
+	}
+
+	public function admin_init() {
+		$this->register_settings();
+		$this->validate_api_key();
+	}
+
+	public function validate_api_key() {
+		$api_key = get_option( $this->option_name . '_api_key' );
+		$this->valid_api_key = Critical_Styles_Ajax::validate_api_key( $api_key );
 	}
 
 	/**
@@ -114,15 +126,16 @@ class Critical_Styles_Admin {
 	 * Copied from https://www.sitepoint.com/wordpress-plugin-boilerplate-part-2-developing-a-plugin/
 	 *
 	 * @since  1.0.0
+
 	 */
-	public function add_options_page() {
+	public function add_as_settings_subpage() {
 
 		$this->plugin_screen_hook_suffix = add_options_page(
 			__( 'Critical Styles Settings', 'critical-styles' ),
 			__( 'Critical Styles', 'critical-styles' ),
 			'manage_options',
 			$this->plugin_name,
-			array( $this, 'display_options_page' )
+			array( $this, 'render_settings_page' )
 		);
 
 	}
@@ -133,8 +146,13 @@ class Critical_Styles_Admin {
 	 *
 	 * @since  1.0.0
 	 */
-	public function display_options_page() {
-		include_once 'partials/critical-styles-admin-display.php';
+	public function render_settings_page() {
+		if ($this->valid_api_key) {
+			include_once 'partials/critical-styles-admin-display.php';
+		} else {
+			include_once 'partials/critical-styles-subscribe.php';
+		}
+
 	}
 
 	public function register_settings() {
