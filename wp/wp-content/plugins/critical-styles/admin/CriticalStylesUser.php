@@ -18,8 +18,9 @@ class Critical_Styles_User {
 	}
 
 	public function set_domains( $raw_domains_data ) {
-		foreach($raw_domains_data['data'] as $domain) {
-			array_push($this->domains, $domain['attributes']);
+		foreach($raw_domains_data['data'] as $raw_domain_data) {
+			$domain = Critical_Styles_Domain::build( $raw_domain_data );
+			array_push($this->domains, $domain);
 		}
 	}
 

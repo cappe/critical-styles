@@ -118,6 +118,7 @@ class Critical_Styles_Core {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAjaxHandler.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesConfig.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesConstants.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesDomain.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesUser.php';
 
 		/**

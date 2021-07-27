@@ -114,12 +114,70 @@ class Critical_Styles_Admin_Core {
 	}
 
 	public function register_settings() {
-		// Add a General section
+		$this->prepare_account_details_section();
+		$this->prepare_domains_section();
+	}
+
+	/**
+	 * Prepares section that contains user's domains.
+	 */
+	public function prepare_domains_section() {
+		$section_id = Critical_Styles_Constants::PLUGIN_PREFIX() . '_domains_section';
+
 		add_settings_section(
-			Critical_Styles_Constants::PLUGIN_PREFIX() . '_general',
-			__( 'General', Critical_Styles_Constants::NAMESPACE() ),
-			array( $this, Critical_Styles_Constants::PLUGIN_PREFIX() . '_general_cb' ),
+			$section_id,
+			__( 'Active Domains', Critical_Styles_Constants::NAMESPACE() ),
+			array( $this, Critical_Styles_Constants::PLUGIN_PREFIX() . '_domains_header_cb' ),
 			$this->plugin_name
+		);
+
+		add_settings_field(
+			Critical_Styles_Constants::PLUGIN_PREFIX() . '_domains',
+			__( 'Domains', Critical_Styles_Constants::NAMESPACE() ),
+			array( $this, Critical_Styles_Constants::PLUGIN_PREFIX() . '_domains_cb' ),
+			$this->plugin_name,
+			$section_id,
+		);
+	}
+
+	public function critical_styles_domains_header_cb() {
+		echo '<p>' . __('Your active domains that are billed monthly', Critical_Styles_Constants::NAMESPACE()) . '</p>';
+	}
+
+	public function critical_styles_domains_cb() {
+		$domains = $this->config->user->active_domains();
+		?>
+
+		<div class="d-flex flex-col">
+			<?php foreach ($domains as $domain): ?>
+				<div style="margin-top: 4px;">
+					<?= $domain->url; ?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * Prepares account details section that contains general details of the user's account.
+	 */
+	public function prepare_account_details_section() {
+		$section_id = Critical_Styles_Constants::PLUGIN_PREFIX() . '_account_details';
+
+		add_settings_section(
+			$section_id,
+			__( 'Account Details', Critical_Styles_Constants::NAMESPACE() ),
+			null,
+			$this->plugin_name
+		);
+
+		add_settings_field(
+			Critical_Styles_Constants::PLUGIN_PREFIX() . '_account_details',
+			__( 'Email', Critical_Styles_Constants::NAMESPACE() ),
+			array( $this, Critical_Styles_Constants::PLUGIN_PREFIX() . '_account_email_cb' ),
+			$this->plugin_name,
+			$section_id,
 		);
 
 		add_settings_field(
@@ -127,11 +185,15 @@ class Critical_Styles_Admin_Core {
 			__( 'Your API key', Critical_Styles_Constants::NAMESPACE() ),
 			array( $this, Critical_Styles_Constants::PLUGIN_PREFIX() . '_api_token_cb' ),
 			$this->plugin_name,
-			Critical_Styles_Constants::PLUGIN_PREFIX() . '_general',
+			$section_id,
 			array( 'label_for' => Critical_Styles_Constants::API_TOKEN_OPTION_NAME() )
 		);
 
 		register_setting( $this->plugin_name, Critical_Styles_Constants::API_TOKEN_OPTION_NAME() );
+	}
+
+	public function critical_styles_account_email_cb() {
+		echo $this->config->user->email;
 	}
 
 	public function critical_styles_api_token_cb() {
@@ -148,11 +210,11 @@ class Critical_Styles_Admin_Core {
 			rows="3"
 		><?= $api_token ?></textarea>
 
-		<div>
-			<?php
-			var_dump($this->config->user->active_domains());
-			?>
-		</div>
+<!--		<div>-->
+<!--			--><?php
+//			var_dump($this->config->user->active_domains());
+//			?>
+<!--		</div>-->
 
 		<?php
 	}
