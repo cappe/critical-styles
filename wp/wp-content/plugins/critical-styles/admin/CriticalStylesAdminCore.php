@@ -116,6 +116,26 @@ class Critical_Styles_Admin_Core {
 	public function register_settings() {
 		$this->prepare_account_details_section();
 		$this->prepare_domains_section();
+		$this->prepare_billing_section();
+	}
+
+	/**
+	 * Prepares billing section.
+	 */
+	public function prepare_billing_section() {
+		$section_id = Critical_Styles_Constants::PLUGIN_PREFIX() . '_billing_section';
+
+		add_settings_section(
+			$section_id,
+			__( 'Billing', Critical_Styles_Constants::NAMESPACE() ),
+			array( $this, Critical_Styles_Constants::PLUGIN_PREFIX() . '_billing_header_cb' ),
+			$this->plugin_name
+		);
+	}
+
+	public function critical_styles_billing_header_cb() {
+		echo '<p>' . __('Billing (WIP)', Critical_Styles_Constants::NAMESPACE()) . '</p>';
+		echo '<p>' . __('Receipts (WIP)', Critical_Styles_Constants::NAMESPACE()) . '</p>';
 	}
 
 	/**
