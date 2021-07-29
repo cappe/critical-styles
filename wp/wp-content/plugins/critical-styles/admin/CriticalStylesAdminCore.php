@@ -34,7 +34,6 @@ class Critical_Styles_Admin_Core {
 
 	public function admin_init() {
 		$this->register_settings();
-//		$this->validate_api_token();
 	}
 
 	/**
@@ -85,7 +84,6 @@ class Critical_Styles_Admin_Core {
 
 	/**
 	 * Add an options page under the Settings submenu.
-	 * Copied from https://www.sitepoint.com/wordpress-plugin-boilerplate-part-2-developing-a-plugin/
 	 *
 	 * @since  1.0.0
 	 */
@@ -95,22 +93,17 @@ class Critical_Styles_Admin_Core {
 			__( 'Critical Styles', Critical_Styles_Constants::NAMESPACE() ),
 			'manage_options',
 			$this->plugin_name,
-			array( $this, 'render_settings_page' )
+			array( $this, 'render_admin_layout' )
 		);
 	}
 
 	/**
-	 * Render the options page for plugin
-	 * Copied from https://www.sitepoint.com/wordpress-plugin-boilerplate-part-2-developing-a-plugin/
+	 * Render the admin layout for plugin
 	 *
 	 * @since  1.0.0
 	 */
-	public function render_settings_page() {
-		include_once 'partials/critical-styles-admin-display.php';
-//		if ($this->valid_api_token) {
-//		} else {
-//			include_once 'partials/critical-styles-subscribe.php';
-//		}
+	public function render_admin_layout() {
+		include_once 'partials/critical-styles-admin-layout.php';
 	}
 
 	public function register_settings() {

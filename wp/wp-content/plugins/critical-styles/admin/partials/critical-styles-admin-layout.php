@@ -21,18 +21,18 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
 	<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 
 	<nav class="nav-tab-wrapper">
-		<a href="?page=critical-styles&tab=settings" class="nav-tab <?php if($tab==='settings'):?>nav-tab-active<?php endif; ?>">Settings</a>
-		<a href="?page=critical-styles&tab=setup" class="nav-tab <?php if($tab==='setup'):?>nav-tab-active<?php endif; ?>">Setup</a>
+		<a href="?page=critical-styles&tab=your-pages" class="nav-tab <?php if($tab==='your-pages'):?>nav-tab-active<?php endif; ?>">Your Pages</a>
+		<a href="?page=critical-styles&tab=account" class="nav-tab <?php if($tab==='account'):?>nav-tab-active<?php endif; ?>">Account</a>
 	</nav>
 
 	<div class="tab-content">
 		<?php switch($tab) :
-			case 'setup':
-				include_once 'critical-styles-setup-display.php';
+			case 'account':
+				include_once 'critical-styles-account-view.php';
 				break;
-			case 'settings':
+			case 'your-pages':
 			default:
-				echo 'Settings';
+				include_once 'critical-styles-your-pages-view.php';
 				break;
 		endswitch; ?>
 	</div>
