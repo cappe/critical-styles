@@ -1,3 +1,0 @@
-<div>
-	your pages
-</div>
