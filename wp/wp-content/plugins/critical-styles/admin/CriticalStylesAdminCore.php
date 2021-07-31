@@ -36,23 +36,28 @@ class Critical_Styles_Admin_Core {
 	}
 
 	/**
-	 * Render the admin layout for plugin
+	 * Render the admin layout for plugin.
+	 *
+	 * Defines all the required view variables.
 	 *
 	 * @since  1.0.0
 	 */
 	public function admin_layout_view() {
 		$plugin_name = $this->config->get_plugin_name();
 		$current_tab = $this->current_tab();
+		$tab_component = null;
 
 		switch ( $current_tab ) :
 			case 'account':
-				$tab_content = Critical_Styles_Account::render();
+				$tab_component = Critical_Styles_Account_Tab::build();
 				break;
 			case 'your-pages':
 			default:
-				$tab_content = Critical_Styles_Your_Pages::render();
+				$tab_component = Critical_Styles_Your_Pages_Tab::build();
 				break;
 		endswitch;
+
+		$html = Critical_Styles_View_Renderer::render($tab_component);
 
 		include_once 'views/critical-styles-admin-layout.php';
 	}

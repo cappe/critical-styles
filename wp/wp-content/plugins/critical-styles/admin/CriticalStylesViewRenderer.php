@@ -1,13 +1,19 @@
 <?php
 
-abstract class Critical_Styles_Base {
-	public static function render() {
-		$klass = get_called_class();
+class Critical_Styles_View_Renderer {
+	private Critical_Styles_Viewable $component;
 
-		$instance = new $klass();
-		$instance->run();
+	public function __construct( $component ) {
+		$this->component = $component;
+	}
 
-		return $instance->view( $instance->template_name() );
+	public static function render( $component ): string {
+		$renderer = new self( $component );
+
+		return $renderer->view(
+			$renderer->component->template_name(),
+			$renderer->component->view_variables(),
+		);
 	}
 
 	/**
@@ -27,7 +33,7 @@ abstract class Critical_Styles_Base {
 	 * @param  string $require               'once' to use require_once() | 'always' to use require()
 	 * @return string
 	 */
-	protected function view( $default_template_path = false, $variables = array(), $require = 'once' ): string {
+	public function view( $default_template_path = false, $variables = array(), $require = 'once' ): string {
 		$template_path = locate_template( basename( $default_template_path ) );
 
 		if ( ! $template_path ) {
@@ -52,7 +58,4 @@ abstract class Critical_Styles_Base {
 
 		return ob_get_clean();
 	}
-
-	abstract public function run();
-	abstract public function template_name(): string;
 }

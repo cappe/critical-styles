@@ -77,9 +77,11 @@ class Critical_Styles_Core {
 		 * Admin
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAdminCore.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesBase.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAccount.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesYourPages.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesViewable.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesViewRenderer.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesBaseTab.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAccountTab.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesYourPagesTab.php';
 
 		$this->config = new Critical_Styles_Config();
 		$this->loader = new Critical_Styles_Loader();
