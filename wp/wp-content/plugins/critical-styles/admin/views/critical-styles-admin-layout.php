@@ -19,6 +19,6 @@
 	</nav>
 
 	<div class="tab-content">
-		<?= $html ?>
+		<?= $tab_content ?>
 	</div>
 </div>
