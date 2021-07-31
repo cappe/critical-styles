@@ -72,6 +72,9 @@ class Critical_Styles_Core {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesConfig.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesLoader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesHttpRequest.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesGetRequest.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesApiHandler.php';
 
 		/**
 		 * Admin
@@ -82,6 +85,7 @@ class Critical_Styles_Core {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesBaseTab.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAccountTab.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesYourPagesTab.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesUser.php';
 
 		$this->config = new Critical_Styles_Config();
 		$this->loader = new Critical_Styles_Loader();
