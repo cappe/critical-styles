@@ -3,9 +3,9 @@ class UserSerializer < BaseSerializer
              :api_token,
              :email
 
-  has_many :domains, lazy_load_data: false, links: {
-    related: -> (object) {
-      "/api/v1/users/#{object.id}/domains"
+  has_many :domains, lazy_load_data: true, links: {
+    related: -> {
+      "/api/v1/domains"
     }
   }
 end

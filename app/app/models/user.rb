@@ -10,4 +10,5 @@ class User < ApplicationRecord
          :validatable
 
   has_many :domains, dependent: :destroy
+  has_many :webpages, through: :domains
 end
