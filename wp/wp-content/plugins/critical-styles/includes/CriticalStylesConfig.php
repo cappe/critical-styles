@@ -68,4 +68,16 @@ class Critical_Styles_Config {
 
 		return $this->user;
 	}
+
+	public function current_domain(): ?Critical_Styles_Domain {
+		$current_url = preg_replace('#^https?://#i', '', site_url());
+
+		foreach ( $this->user->get_domains() as $domain ) {
+			if ( $domain->url == $current_url ) {
+				return $domain;
+			}
+		}
+
+		return null;
+	}
 }

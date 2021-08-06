@@ -2,4 +2,4 @@
 	Your Pages page
 </h1>
 
-<?= var_dump($user_id); ?>
+<?= var_dump($webpages); ?>
