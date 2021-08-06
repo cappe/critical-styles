@@ -1,5 +1,28 @@
-<h1>
-	Your Pages page
-</h1>
+<table>
+	<thead>
+		<th>
+			Path
+		</th>
 
-<?= var_dump($webpages); ?>
+		<th>
+			Actions
+		</th>
+	</thead>
+
+	<tbody>
+		<?php foreach ($webpages as $webpage): ?>
+			<tr>
+				<th
+					class="text-left"
+				>
+					<?= $webpage->path ?>
+				</th>
+
+				<th>
+					<button>refresh</button>
+					<button>remove</button>
+				</th>
+			</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
