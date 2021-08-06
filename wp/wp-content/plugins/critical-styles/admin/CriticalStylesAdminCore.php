@@ -71,14 +71,14 @@ class Critical_Styles_Admin_Core {
 		include_once 'views/critical-styles-admin-layout.php';
 	}
 
-//	/**
-//	 * Register the stylesheets for the admin area.
-//	 *
-//	 * @since    1.0.0
-//	 */
-//	public function enqueue_styles() {
-//		wp_enqueue_style( $this->config->plugin_name(), plugin_dir_url( __FILE__ ) . 'css/critical-styles-admin.css', array(), $this->config->plugin_version(), 'all' );
-//	}
+	/**
+	 * Register the stylesheets for the admin area.
+	 *
+	 * @since    1.0.0
+	 */
+	public function enqueue_styles() {
+		wp_enqueue_style( $this->config->plugin_name(), plugin_dir_url( __FILE__ ) . 'css/styles.css', array(), $this->config->plugin_version(), 'all' );
+	}
 //
 //	/**
 //	 * Register the JavaScript for the admin area.
