@@ -74,11 +74,15 @@ class Critical_Styles_Core {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesLoader.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesHttpRequest.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesGetRequest.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesPostRequest.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/CriticalStylesApiHandler.php';
 
 		/**
 		 * Admin
 		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/traits/CriticalStylesOwnerTrait.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/traits/CriticalStylesIndexTrait.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/traits/CriticalStylesCreateTrait.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAdminCore.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesViewable.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesViewRenderer.php';
@@ -86,7 +90,6 @@ class Critical_Styles_Core {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAccountTab.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesYourPagesTab.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesUser.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/traits/CriticalStylesOwnerTrait.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesDomain.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesWebpage.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesWebpageCollection.php';

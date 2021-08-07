@@ -2,20 +2,13 @@
 
 class Critical_Styles_Webpage_Collection {
 	use Critical_Styles_Owner_Trait;
+	use Critical_Styles_Index_Trait;
+	use Critical_Styles_Create_Trait;
 
 	private ?array $webpages = null;
-	private string $index_path;
 	private Critical_Styles_Domain $domain;
 
 	public function __construct() {}
-
-	public function set_index_path( string $path ) {
-		$this->index_path = $path;
-	}
-
-	public function get_index_path(): string {
-		return $this->index_path;
-	}
 
 	public function set_domain( Critical_Styles_Domain $domain ) {
 		$this->domain = $domain;
@@ -137,14 +130,29 @@ class Critical_Styles_Webpage_Collection {
 		return $webpages;
 	}
 
+	/**
+	 * Sends new webpages in a single POST to the API.
+	 *
+	 * @param array $webpages
+	 *
+	 * @return array
+	 */
 	private function process_new_webpages( array $webpages ): array {
 		$new_webpages = array_filter( $webpages, array( $this, 'is_new_webpage' ) );
+		$new_paths = [];
 
 		foreach ( $new_webpages as $webpage ) {
-			/**
-			 * Send in a single POST batch to the API
-			 */
+			array_push( $new_paths, $webpage->path );
 		}
+
+		$req = new Critical_Styles_POST_Request();
+		$req->set_api_token( $this->get_owner()->api_token );
+		$req->set_path( $this->get_create_path() );
+		$req->set_body( array( 'paths' => array_values( $new_paths ) ) );
+
+		$res = Critical_Styles_Api_Handler::exec( $req );
+
+		var_dump($res);
 
 		return $webpages;
 	}

@@ -23,7 +23,8 @@ class Critical_Styles_Domain {
 	public function set_website_collection( array $data ) {
 		$this->webpages = new Critical_Styles_Webpage_Collection();
 		$this->webpages->set_owner( $this->get_owner() );
-		$this->webpages->set_index_path($data['relationships']['webpages']['links']['related']);
+		$this->webpages->set_index_path( $data['relationships']['webpages']['links']['index'] );
+		$this->webpages->set_create_path( $data['relationships']['webpages']['links']['create'] );
 	}
 
 	/**

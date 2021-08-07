@@ -1,12 +1,13 @@
 <?php
 
 class Critical_Styles_User {
+	use Critical_Styles_Index_Trait;
+
 	public string $api_token;
 	public string $email;
 	public string $id;
 
 	private ?array $domains = null;
-	private string $domains_relationships_path;
 
 	public function __construct( ) {}
 
@@ -21,7 +22,7 @@ class Critical_Styles_User {
 
 			$req = new Critical_Styles_GET_Request();
 			$req->set_api_token( $this->api_token );
-			$req->set_path( $this->domains_relationships_path );
+			$req->set_path( $this->get_index_path() );
 
 			$res = Critical_Styles_Api_Handler::exec( $req );
 
@@ -56,7 +57,7 @@ class Critical_Styles_User {
 		$user->email = $attributes['email'];
 		$user->id = $attributes['id'];
 
-		$user->domains_relationships_path = $relationships['domains']['links']['related'];
+		$user->set_index_path( $relationships['domains']['links']['index'] );
 
 		return $user;
 	}

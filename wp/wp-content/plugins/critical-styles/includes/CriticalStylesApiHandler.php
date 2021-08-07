@@ -2,14 +2,7 @@
 
 class Critical_Styles_Api_Handler {
 	public static function exec( Critical_Styles_Http_Request $req ) {
-		$res = wp_remote_get(
-			$req->get_url(),
-			array(
-				'headers' => $req->get_headers(),
-			),
-		);
-
-		return self::handle_response( $res );
+		return self::handle_response( $req->exec() );
 	}
 
 	private static function handle_response( $res ) {

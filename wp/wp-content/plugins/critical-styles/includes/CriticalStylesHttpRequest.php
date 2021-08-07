@@ -6,4 +6,6 @@ interface Critical_Styles_Http_Request {
 
 	public function get_headers(): array;
 	public function get_url(): string;
+
+	public function exec();
 }
