@@ -16,6 +16,8 @@ services:
   web:
     build: ./app
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    stdin_open: true
+    tty: true
     volumes:
       - ./app:/app
     ports:
@@ -31,6 +33,8 @@ services:
 
   sidekiq:
     image: critical_web:latest
+    stdin_open: true
+    tty: true
     volumes:
       - ./app:/app
     command: bundle exec sidekiq
