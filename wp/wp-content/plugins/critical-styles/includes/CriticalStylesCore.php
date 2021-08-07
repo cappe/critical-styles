@@ -86,8 +86,10 @@ class Critical_Styles_Core {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesAccountTab.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesYourPagesTab.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesUser.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/traits/CriticalStylesOwnerTrait.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesDomain.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesWebpage.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesWebpageCollection.php';
 
 		$this->config = new Critical_Styles_Config();
 		$this->loader = new Critical_Styles_Loader();

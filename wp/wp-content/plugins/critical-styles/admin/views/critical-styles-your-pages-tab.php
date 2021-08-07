@@ -1,10 +1,34 @@
+<!--<pre>-->
+<!--	--><?php
+//
+////	print_r($webpages);
+//
+//	?>
+<!--</pre>-->
+
 <table>
 	<thead>
-		<th>
+		<th
+			class="text-left"
+		>
+			Status
+		</th>
+
+		<th
+			class="text-left"
+		>
+			ID
+		</th>
+
+		<th
+			class="text-left"
+		>
 			Path
 		</th>
 
-		<th>
+		<th
+			class="text-left"
+		>
 			Actions
 		</th>
 	</thead>
@@ -12,6 +36,18 @@
 	<tbody>
 		<?php foreach ($webpages as $webpage): ?>
 			<tr>
+				<th
+					class="text-left"
+				>
+					Pending
+				</th>
+
+				<th
+					class="text-left"
+				>
+					<?= $webpage->id ?>
+				</th>
+
 				<th
 					class="text-left"
 				>

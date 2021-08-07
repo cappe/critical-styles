@@ -1,33 +1,24 @@
 <?php
 
 class Critical_Styles_Webpage {
-	public string $id;
+	use Critical_Styles_Owner_Trait;
+
+	public ?string $id = null;
 	public string $path;
 
-	private Critical_Styles_Domain $domain;
-
-	public function __construct( ) {}
+	public function __construct() {}
 
 	public static function build( $data ): self {
 		$attributes = $data['attributes'];
 
-		$domain = new self();
-		$domain->id = $attributes['id'];
-		$domain->path = $attributes['path'];
+		$webpage       = new self();
+		$webpage->path = $attributes['path'];
+		$webpage->set_owner( $attributes['owner'] );
 
-		return $domain;
+		return $webpage;
 	}
 
-	/**
-	 * Sets the belongs_to association.
-	 *
-	 * @param Critical_Styles_Domain $domain
-	 */
-	public function set_domain( Critical_Styles_Domain $domain ) {
-		$this->domain = $domain;
-	}
-
-	public function get_domain(): Critical_Styles_Domain {
-		return $this->domain;
+	public function is_new(): bool {
+		return !$this->id;
 	}
 }

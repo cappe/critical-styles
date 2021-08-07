@@ -25,9 +25,10 @@ class Critical_Styles_User {
 
 			$res = Critical_Styles_Api_Handler::exec( $req );
 
-			foreach ( $res['data'] as $raw ) {
-				$domain = Critical_Styles_Domain::build( $raw );
-				$domain->set_user( $this );
+			foreach ( $res['data'] as $data ) {
+				$domain = Critical_Styles_Domain::build( $data );
+				$domain->set_owner( $this );
+				$domain->set_website_collection( $data );
 
 				array_push(
 					$this->domains,
