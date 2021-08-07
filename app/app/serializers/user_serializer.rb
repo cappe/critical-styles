@@ -4,8 +4,8 @@ class UserSerializer < BaseSerializer
              :email
 
   has_many :domains, lazy_load_data: true, links: {
-    related: -> {
-      "/api/v1/domains"
+    index: -> (_, params) {
+      params[:context].api_domains_path
     }
   }
 end

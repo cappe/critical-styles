@@ -3,8 +3,11 @@ class DomainSerializer < BaseSerializer
              :url
 
   has_many :webpages, lazy_load_data: true, links: {
-    related: -> (object) {
-      "/api/v1/domains/#{object.id}/webpages"
+    index: -> (object, params) {
+      params[:context].api_domain_webpages_path(object)
+    },
+    create: -> (object, params) {
+      params[:context].api_domain_webpages_path(object)
     }
   }
 end
