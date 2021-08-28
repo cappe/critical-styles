@@ -145,6 +145,10 @@ class Critical_Styles_Webpage_Collection {
 			array_push( $new_paths, $webpage->path );
 		}
 
+		if (count($new_paths) <= 0) {
+			return $webpages;
+		}
+
 		$req = new Critical_Styles_POST_Request();
 		$req->set_api_token( $this->get_owner()->api_token );
 		$req->set_path( $this->get_create_path() );
@@ -152,7 +156,7 @@ class Critical_Styles_Webpage_Collection {
 
 		$res = Critical_Styles_Api_Handler::exec( $req );
 
-		var_dump($res);
+		// TODO: Hydrate the new pages
 
 		return $webpages;
 	}
