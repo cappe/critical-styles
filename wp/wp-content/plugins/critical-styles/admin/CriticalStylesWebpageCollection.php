@@ -119,6 +119,8 @@ class Critical_Styles_Webpage_Collection {
 				 * Website data from API can be set here.
 				 */
 				$webpage->id = $webpage_data['attributes']['id'];
+				$webpage->critical_css_url = $webpage_data['attributes']['critical_css_url'];
+				$webpage->status = $webpage_data['attributes']['status'];
 			} else {
 				/**
 				 * Data not found for the given webpage so we

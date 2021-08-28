@@ -5,8 +5,12 @@ class Critical_Styles_Webpage {
 
 	public ?string $id = null;
 	public string $path;
+	public string $status;
+	public string $critical_css_url;
 
-	public function __construct() {}
+	public function __construct() {
+		$this->status = 'created';
+	}
 
 	public static function build( $data ): self {
 		$attributes = $data['attributes'];

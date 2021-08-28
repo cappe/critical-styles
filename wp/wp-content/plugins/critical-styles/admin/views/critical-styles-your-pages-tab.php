@@ -29,6 +29,12 @@
 		<th
 			class="text-left"
 		>
+			CSS
+		</th>
+
+		<th
+			class="text-left"
+		>
 			Actions
 		</th>
 	</thead>
@@ -39,7 +45,7 @@
 				<th
 					class="text-left"
 				>
-					Pending
+					<?= $webpage->status ?>
 				</th>
 
 				<th
@@ -52,6 +58,17 @@
 					class="text-left"
 				>
 					<?= $webpage->path ?>
+				</th>
+
+				<th
+					class="text-left"
+				>
+					<a
+						href="<?= $webpage->critical_css_url ?>"
+						target="_blank"
+					>
+						CSS
+					</a>
 				</th>
 
 				<th>
