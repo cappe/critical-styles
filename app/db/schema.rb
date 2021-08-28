@@ -54,9 +54,9 @@ ActiveRecord::Schema.define(version: 2021_08_28_091119) do
 
   create_table "jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "jid", comment: "Active Job ID"
-    t.bigint "domain_id"
-    t.bigint "user_id"
-    t.bigint "webpage_id"
+    t.uuid "domain_id"
+    t.uuid "user_id"
+    t.uuid "webpage_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["domain_id"], name: "index_jobs_on_domain_id"
@@ -100,5 +100,8 @@ ActiveRecord::Schema.define(version: 2021_08_28_091119) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "domains", "users"
+  add_foreign_key "jobs", "domains"
+  add_foreign_key "jobs", "users"
+  add_foreign_key "jobs", "webpages"
   add_foreign_key "webpages", "domains"
 end
