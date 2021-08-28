@@ -1,5 +1,6 @@
 class WebpageSerializer < BaseSerializer
   attributes :id,
              :path,
-             :critical_css_url
+             :critical_css_url,
+             :status
 end

@@ -4,6 +4,6 @@ class Job < ApplicationRecord
   belongs_to :webpage
 
   def status
-    Sidekiq::Status::status(self.jid)
+    Sidekiq::Status::status(self.jid) || :unknown
   end
 end

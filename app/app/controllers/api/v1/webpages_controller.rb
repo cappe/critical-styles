@@ -3,6 +3,7 @@ class Api::V1::WebpagesController < Api::V1::ApiController
     webpages = current_user
                  .webpages
                  .with_attached_critical_css
+                 .with_latest_job
                  .where(domain_id: params[:domain_id])
 
     render json: WebpageSerializer.new(webpages)
@@ -28,7 +29,8 @@ class Api::V1::WebpagesController < Api::V1::ApiController
         job.webpage = webpage
         job.save!
       else
-        raise ActiveRecord::Rollback, "Creating a new webpage saved, transaction rolling back..."
+        # TODO: How to handle this case?
+        # raise ActiveRecord::Rollback, "Creating a new webpage failed, transaction rolling back..."
       end
     end
 
