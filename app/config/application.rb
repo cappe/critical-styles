@@ -20,5 +20,9 @@ module App
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.active_job.queue_adapter = :sidekiq
+
+    # Allows serving the CSS files inline (in-browser)
+    # https://edgeguides.rubyonrails.org/configuring.html#configuring-active-storage
+    config.active_storage.content_types_allowed_inline += ["text/css"]
   end
 end

@@ -2,6 +2,7 @@ class Api::V1::WebpagesController < Api::V1::ApiController
   def index
     webpages = current_user
                  .webpages
+                 .with_attached_critical_css
                  .where(domain_id: params[:domain_id])
 
     render json: WebpageSerializer.new(webpages)
@@ -11,16 +12,23 @@ class Api::V1::WebpagesController < Api::V1::ApiController
     paths = params[:paths].values
     webpages = []
 
-    Webpage.transaction do
-      paths.each do |path|
-        webpage = current_domain.webpages.build
-        webpage.path = path
+    paths.each do |path|
+      webpage = current_domain.webpages.build
+      webpage.path = path
 
-        if webpage.save
-          webpages << webpage
-        else
-          raise ActiveRecord::Rollback, "Creating a new webpage saved, transaction rolling back..."
-        end
+      if webpage.save
+        webpages << webpage
+
+        active_job = GenerateCriticalcssJob.perform_later(webpage_id: webpage.id)
+
+        job = Job.new
+        job.jid = active_job&.provider_job_id
+        job.domain = current_domain
+        job.user = current_user
+        job.webpage = webpage
+        job.save!
+      else
+        raise ActiveRecord::Rollback, "Creating a new webpage saved, transaction rolling back..."
       end
     end
 

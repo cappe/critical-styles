@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_26_172835) do
+ActiveRecord::Schema.define(version: 2021_08_28_091119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -50,6 +50,18 @@ ActiveRecord::Schema.define(version: 2021_07_26_172835) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "url", null: false
     t.index ["user_id"], name: "index_domains_on_user_id"
+  end
+
+  create_table "jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "jid", comment: "Active Job ID"
+    t.bigint "domain_id"
+    t.bigint "user_id"
+    t.bigint "webpage_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["domain_id"], name: "index_jobs_on_domain_id"
+    t.index ["user_id"], name: "index_jobs_on_user_id"
+    t.index ["webpage_id"], name: "index_jobs_on_webpage_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

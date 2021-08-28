@@ -11,4 +11,5 @@ class User < ApplicationRecord
 
   has_many :domains, dependent: :destroy
   has_many :webpages, through: :domains
+  has_many :jobs, dependent: :destroy
 end

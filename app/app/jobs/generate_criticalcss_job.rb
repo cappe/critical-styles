@@ -1,7 +1,11 @@
 class GenerateCriticalcssJob < ApplicationJob
   queue_as :default
 
+  include Sidekiq::Status::Worker # enables job status tracking
+
   # Uses https://github.com/peterbe/minimalcss
+
+  # self.jid for current job id
 
   def perform(webpage_id:)
     webpage = Webpage.find(webpage_id)
