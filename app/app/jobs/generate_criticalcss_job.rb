@@ -51,5 +51,8 @@ class GenerateCriticalcssJob < ApplicationJob
       filename: tmp_critical_css_filename
     )
     File.delete(tmp_critical_css)
+
+    # Should we track job status separately?
+    # Job.find(self.jid).completed!
   end
 end
