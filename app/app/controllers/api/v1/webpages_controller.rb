@@ -13,6 +13,7 @@ class Api::V1::WebpagesController < Api::V1::ApiController
         active_job = GenerateCriticalcssJob.perform_later(webpage_id: webpage.id)
 
         job = Job.new
+        job.status = :queued
         job.jid = active_job&.provider_job_id
         job.domain = current_domain
         job.user = current_user

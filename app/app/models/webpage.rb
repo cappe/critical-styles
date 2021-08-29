@@ -9,7 +9,7 @@ class Webpage < ApplicationRecord
 
   scope :with_latest_job, -> { includes(:latest_job) }
 
-  delegate :status,
+  delegate :job_status,
            to: :latest_job
 
   has_one_attached :bundled_css # All stylesheets bundled together

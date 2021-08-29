@@ -3,5 +3,5 @@ class WebpageSerializer < BaseSerializer
              :critical_css_filename,
              :critical_css_url,
              :path,
-             :status
+             :job_status
 end
