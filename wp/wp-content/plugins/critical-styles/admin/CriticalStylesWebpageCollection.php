@@ -8,7 +8,8 @@ class Critical_Styles_Webpage_Collection {
 	private ?array $webpages = null;
 	private Critical_Styles_Domain $domain;
 
-	public function __construct() {}
+	public function __construct() {
+	}
 
 	public function set_domain( Critical_Styles_Domain $domain ) {
 		$this->domain = $domain;
@@ -32,7 +33,7 @@ class Critical_Styles_Webpage_Collection {
 	}
 
 	public function add_batch( array $webpages ) {
-		$this->webpages = array_merge($this->webpages, $webpages);
+		$this->webpages = array_merge( $this->webpages, $webpages );
 	}
 
 	public function remove() {
@@ -62,8 +63,9 @@ class Critical_Styles_Webpage_Collection {
 
 			$data = array(
 				'attributes' => array(
-					'owner' => $this->get_owner(),
-					'path' => '/' . get_page_uri(),
+					'owner'   => $this->get_owner(),
+					'page_id' => get_the_ID(),
+					'path'    => '/' . get_page_uri(),
 				),
 			);
 
@@ -82,6 +84,7 @@ class Critical_Styles_Webpage_Collection {
 	 * Sets data for each Webpage in the collection.
 	 *
 	 * @param array $webpages
+	 *
 	 * @return array
 	 */
 	private function hydrate_with_api_data( array $webpages ): array {
@@ -119,7 +122,7 @@ class Critical_Styles_Webpage_Collection {
 				 * We don't need this data anymore here so we might as well delete
 				 * it. It's a minor optimization in case there's a lot of raw data.
 				 */
-				array_splice($res['data'], $index, 1);
+				array_splice( $res['data'], $index, 1 );
 
 				break;
 			}
@@ -128,13 +131,13 @@ class Critical_Styles_Webpage_Collection {
 				/**
 				 * Hydrate the webpage with the API data
 				 */
-				$webpage->id = $webpage_data['attributes']['id'];
+				$webpage->id                    = $webpage_data['attributes']['id'];
 				$webpage->critical_css_filename = $webpage_data['attributes']['critical_css_filename'];
-				$webpage->critical_css_url = $webpage_data['attributes']['critical_css_url'];
-				$webpage->status = $webpage_data['attributes']['status'];
+				$webpage->critical_css_url      = $webpage_data['attributes']['critical_css_url'];
+				$webpage->status                = $webpage_data['attributes']['status'];
 			}
 //			else {
-				// TODO: Should we handle a case where data was not found
+			// TODO: Should we handle a case where data was not found
 //			}
 		}
 

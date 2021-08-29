@@ -23,6 +23,12 @@
 		<th
 			class="text-left"
 		>
+			Page ID
+		</th>
+
+		<th
+			class="text-left"
+		>
 			Path
 		</th>
 
@@ -52,6 +58,12 @@
 					class="text-left"
 				>
 					<?= $webpage->id ?>
+				</th>
+
+				<th
+					class="text-left"
+				>
+					<?= $webpage->page_id ?>
 				</th>
 
 				<th

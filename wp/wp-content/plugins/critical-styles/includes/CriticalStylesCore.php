@@ -49,7 +49,12 @@ class Critical_Styles_Core {
 	 */
 	public function __construct() {
 		$this->load_dependencies();
-		$this->define_admin_hooks();
+
+		if ( is_admin() ) {
+			$this->define_admin_hooks();
+		} else {
+			$this->define_public_hooks();
+		}
 	}
 
 	/**
@@ -87,6 +92,11 @@ class Critical_Styles_Core {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesWebpage.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesWebpageCollection.php';
 
+		/**
+		 * Public
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/CriticalStylesPublicCore.php';
+
 		$this->loader = new Critical_Styles_Loader();
 	}
 
@@ -104,6 +114,20 @@ class Critical_Styles_Core {
 //		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'admin_init' );
+	}
+
+	/**
+	 * Register all of the hooks related to the public-facing functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_public_hooks() {
+		$plugin_public = new Critical_Styles_Public_Core();
+
+		$this->loader->add_filter( 'style_loader_tag', $plugin_public, 'style_loader_tag', 10, 4 );
+		$this->loader->add_action( 'wp_head', $plugin_public, 'wp_head' );
 	}
 
 	/**
