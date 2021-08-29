@@ -134,7 +134,7 @@ class Critical_Styles_Webpage_Collection {
 				$webpage->id                    = $webpage_data['attributes']['id'];
 				$webpage->critical_css_filename = $webpage_data['attributes']['critical_css_filename'];
 				$webpage->critical_css_url      = $webpage_data['attributes']['critical_css_url'];
-				$webpage->status                = $webpage_data['attributes']['status'];
+				$webpage->job_status            = $webpage_data['attributes']['job_status'];
 			}
 //			else {
 			// TODO: Should we handle a case where data was not found

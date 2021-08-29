@@ -8,10 +8,10 @@ class Critical_Styles_Webpage {
 	public ?string $critical_css_filename = null;
 	public ?string $critical_css_url = null;
 	public string $path;
-	public string $status;
+	public string $job_status;
 
 	public function __construct() {
-		$this->status = 'created';
+		$this->job_status = 'created';
 	}
 
 	public static function build( $data ): self {

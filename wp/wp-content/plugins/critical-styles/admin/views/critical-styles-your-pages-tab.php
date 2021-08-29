@@ -51,7 +51,7 @@
 				<th
 					class="text-left"
 				>
-					<?= $webpage->status ?>
+					<?= $webpage->job_status ?>
 				</th>
 
 				<th
@@ -63,6 +63,7 @@
 				<th
 					class="text-left"
 				>
+					<? $webpage->criticalCss() ?>
 					<?= $webpage->page_id ?>
 				</th>
 
