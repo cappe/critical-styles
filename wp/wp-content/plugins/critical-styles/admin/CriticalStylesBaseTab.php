@@ -1,16 +1,11 @@
 <?php
 
 abstract class Critical_Styles_Base_Tab implements Critical_Styles_Viewable {
-	public Critical_Styles_Config $config;
+	public function __construct() {}
 
-	public function __construct( Critical_Styles_Config $config ) {
-		$this->config = $config;
-	}
-
-	public static function build( Critical_Styles_Config $config ): self {
+	public static function build(): self {
 		$klass = get_called_class();
-
-		return new $klass( $config );
+		return new $klass();
 	}
 
 	abstract function admin_init();

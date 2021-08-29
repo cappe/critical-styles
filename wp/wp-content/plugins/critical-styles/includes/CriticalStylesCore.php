@@ -39,13 +39,6 @@ class Critical_Styles_Core {
 	protected Critical_Styles_Loader $loader;
 
 	/**
-	 * Shared config for the plugin
-	 *
-	 * @var Critical_Styles_Config
-	 */
-	private Critical_Styles_Config $config;
-
-	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -94,7 +87,6 @@ class Critical_Styles_Core {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesWebpage.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/CriticalStylesWebpageCollection.php';
 
-		$this->config = new Critical_Styles_Config();
 		$this->loader = new Critical_Styles_Loader();
 	}
 
@@ -106,7 +98,7 @@ class Critical_Styles_Core {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-		$plugin_admin = new Critical_Styles_Admin_Core( $this->config );
+		$plugin_admin = new Critical_Styles_Admin_Core();
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 //		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );

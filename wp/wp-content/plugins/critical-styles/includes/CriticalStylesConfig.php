@@ -16,14 +16,14 @@ class Critical_Styles_Config {
 	 * @access   protected
 	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
-	private string $plugin_name;
+	private string $plugin_name = 'critical-styles';
 
 	/**
 	 * The unique prefix of this plugin.
 	 *
 	 * @var string
 	 */
-	private string $plugin_prefix;
+	private string $plugin_prefix = 'critical_styles';
 
 	/**
 	 * The current version of the plugin.
@@ -42,8 +42,6 @@ class Critical_Styles_Config {
 		} else {
 			$this->plugin_version = '1.0.0';
 		}
-		$this->plugin_name = 'critical-styles';
-		$this->plugin_prefix = 'critical_styles';
 	}
 
 	// TODO: Make config object singleton throughout the whole plugin.

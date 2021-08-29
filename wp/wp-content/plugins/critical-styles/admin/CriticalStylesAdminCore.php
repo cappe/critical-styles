@@ -1,19 +1,9 @@
 <?php
 
 class Critical_Styles_Admin_Core {
-	/**
-	 * Config
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      Critical_Styles_Config $config The current version of this plugin.
-	 */
-	private Critical_Styles_Config $config;
-
 	private Critical_Styles_Base_Tab $tab_component;
 
-	public function __construct( Critical_Styles_Config $config ) {
-		$this->config = $config;
+	public function __construct() {
 		$this->set_tab_component();
 	}
 
@@ -26,11 +16,11 @@ class Critical_Styles_Admin_Core {
 
 		switch ( $this->current_tab() ) :
 			case 'account':
-				$tab_component = Critical_Styles_Account_Tab::build( $this->config );
+				$tab_component = Critical_Styles_Account_Tab::build();
 				break;
 			case 'your-pages':
 			default:
-				$tab_component = Critical_Styles_Your_Pages_Tab::build( $this->config );
+				$tab_component = Critical_Styles_Your_Pages_Tab::build();
 				break;
 		endswitch;
 
@@ -48,10 +38,10 @@ class Critical_Styles_Admin_Core {
 	 */
 	public function admin_menu() {
 		add_options_page(
-			__( 'Critical Styles Settings', $this->config->plugin_name() ),
-			__( 'Critical Styles', $this->config->plugin_name() ),
+			__( 'Critical Styles Settings', Critical_Styles_Config::get()->plugin_name() ),
+			__( 'Critical Styles', Critical_Styles_Config::get()->plugin_name() ),
 			'manage_options',
-			$this->config->plugin_name(),
+			Critical_Styles_Config::get()->plugin_name(),
 			array( $this, 'admin_layout_view' )
 		);
 	}
@@ -64,7 +54,7 @@ class Critical_Styles_Admin_Core {
 	 * @since  1.0.0
 	 */
 	public function admin_layout_view() {
-		$plugin_name = $this->config->plugin_name();
+		$plugin_name = Critical_Styles_Config::get()->plugin_name();
 		$current_tab = $this->current_tab();
 		$tab_content = Critical_Styles_View_Renderer::render( $this->tab_component );
 
@@ -77,7 +67,7 @@ class Critical_Styles_Admin_Core {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( $this->config->plugin_name(), plugin_dir_url( __FILE__ ) . 'css/styles.css', array(), $this->config->plugin_version(), 'all' );
+		wp_enqueue_style( Critical_Styles_Config::get()->plugin_name(), plugin_dir_url( __FILE__ ) . 'css/styles.css', array(), Critical_Styles_Config::get()->plugin_version(), 'all' );
 	}
 //
 //	/**
@@ -86,6 +76,6 @@ class Critical_Styles_Admin_Core {
 //	 * @since    1.0.0
 //	 */
 //	public function enqueue_scripts() {
-//		wp_enqueue_script( $this->config->plugin_name(), plugin_dir_url( __FILE__ ) . 'js/critical-styles-admin.js', array( 'jquery' ), $this->config->plugin_version(), false );
+//		wp_enqueue_script( Critical_Styles_Config::get()->plugin_name(), plugin_dir_url( __FILE__ ) . 'js/critical-styles-admin.js', array( 'jquery' ), Critical_Styles_Config::get()->plugin_version(), false );
 //	}
 }
