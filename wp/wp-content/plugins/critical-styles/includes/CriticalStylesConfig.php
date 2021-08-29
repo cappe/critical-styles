@@ -1,6 +1,14 @@
 <?php
 
 class Critical_Styles_Config {
+
+	/**
+	 * The unique instance of the plugin.
+	 *
+	 * @var Critical_Styles_Config
+	 */
+	private static Critical_Styles_Config $instance;
+
 	/**
 	 * The unique identifier of this plugin.
 	 *
@@ -36,6 +44,21 @@ class Critical_Styles_Config {
 		}
 		$this->plugin_name = 'critical-styles';
 		$this->plugin_prefix = 'critical_styles';
+	}
+
+	// TODO: Make config object singleton throughout the whole plugin.
+
+	/**
+	 * Gets an instance of our plugin.
+	 *
+	 * @return Critical_Styles_Config
+	 */
+	public static function get(): Critical_Styles_Config {
+		if ( !isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	public function plugin_name(): string {
@@ -79,5 +102,20 @@ class Critical_Styles_Config {
 		}
 
 		return null;
+	}
+
+	public function cacheDir(): string {
+		$dir = WP_CONTENT_DIR . '/cache/critical-styles';
+
+		if ( ! file_exists( $dir ) ) {
+			@mkdir( $dir, 0755, true );
+		}
+
+		// TODO: Handle this case somehow
+//		if ( ! is_writable( $dir ) ) {
+//			return false;
+//		}
+
+		return $dir;
 	}
 }

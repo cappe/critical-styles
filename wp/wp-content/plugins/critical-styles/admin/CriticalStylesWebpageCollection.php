@@ -42,7 +42,6 @@ class Critical_Styles_Webpage_Collection {
 	private function cache_webpages() {
 		$webpages = $this->build_webpages();
 		$webpages = $this->hydrate_with_api_data( $webpages );
-		$webpages = $this->process_new_webpages( $webpages );
 
 		$this->add_batch( $webpages );
 	}
@@ -83,17 +82,28 @@ class Critical_Styles_Webpage_Collection {
 	 * Sets data for each Webpage in the collection.
 	 *
 	 * @param array $webpages
+	 * @return array
 	 */
 	private function hydrate_with_api_data( array $webpages ): array {
-		$req = new Critical_Styles_GET_Request();
+		$webpage_paths = [];
+
+		foreach ( $webpages as $webpage ) {
+			array_push( $webpage_paths, $webpage->path );
+		}
+
+		$req = new Critical_Styles_POST_Request();
 		$req->set_api_token( $this->get_owner()->api_token );
-		$req->set_path( $this->get_index_path() );
+		$req->set_path( $this->get_create_path() );
+		$req->set_body( array( 'webpage_paths' => array_values( $webpage_paths ) ) );
 
 		$res = Critical_Styles_Api_Handler::exec( $req );
 
 		foreach ( $webpages as $webpage ) {
 			$webpage_data = null;
 
+			/**
+			 * Finds corresponding webpage data
+			 */
 			foreach ( $res['data'] as $index => $data ) {
 
 				/**
@@ -116,54 +126,18 @@ class Critical_Styles_Webpage_Collection {
 
 			if ( isset( $webpage_data ) ) {
 				/**
-				 * Website data from API can be set here.
+				 * Hydrate the webpage with the API data
 				 */
 				$webpage->id = $webpage_data['attributes']['id'];
+				$webpage->critical_css_filename = $webpage_data['attributes']['critical_css_filename'];
 				$webpage->critical_css_url = $webpage_data['attributes']['critical_css_url'];
 				$webpage->status = $webpage_data['attributes']['status'];
-			} else {
-				/**
-				 * Data not found for the given webpage so we
-				 * need to tell the API to start processing it.
-				 */
 			}
+//			else {
+				// TODO: Should we handle a case where data was not found
+//			}
 		}
 
 		return $webpages;
-	}
-
-	/**
-	 * Sends new webpages in a single POST to the API.
-	 *
-	 * @param array $webpages
-	 *
-	 * @return array
-	 */
-	private function process_new_webpages( array $webpages ): array {
-		$new_webpages = array_filter( $webpages, array( $this, 'is_new_webpage' ) );
-		$new_paths = [];
-
-		foreach ( $new_webpages as $webpage ) {
-			array_push( $new_paths, $webpage->path );
-		}
-
-		if (count($new_paths) <= 0) {
-			return $webpages;
-		}
-
-		$req = new Critical_Styles_POST_Request();
-		$req->set_api_token( $this->get_owner()->api_token );
-		$req->set_path( $this->get_create_path() );
-		$req->set_body( array( 'paths' => array_values( $new_paths ) ) );
-
-		$res = Critical_Styles_Api_Handler::exec( $req );
-
-		// TODO: Hydrate the new pages
-
-		return $webpages;
-	}
-
-	private function is_new_webpage( Critical_Styles_Webpage $webpage ): bool {
-		return $webpage->is_new();
 	}
 }

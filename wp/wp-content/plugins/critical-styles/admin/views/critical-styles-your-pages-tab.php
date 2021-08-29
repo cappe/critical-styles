@@ -66,8 +66,15 @@
 					<a
 						href="<?= $webpage->critical_css_url ?>"
 						target="_blank"
+						style="
+							width: 200px;
+							display: block;
+							text-overflow: ellipsis;
+							overflow: hidden;
+							white-space: nowrap;
+						"
 					>
-						CSS
+						<?= $webpage->critical_css_filename ?>
 					</a>
 				</th>
 
