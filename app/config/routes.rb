@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     scope module: :v1, path: 'v1' do
       resource :user, only: :show
       resources :domains, only: [:index] do
-        resources :webpages, only: [:index, :create]
+        resources :webpages, only: [:create]
       end
     end
   end

@@ -27,4 +27,8 @@ class Webpage < ApplicationRecord
   def critical_css_url
     critical_css.url
   end
+
+  def critical_css_filename
+    critical_css.filename
+  end
 end
