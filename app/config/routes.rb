@@ -1,6 +1,3 @@
-require 'sidekiq/web'
-require 'sidekiq-status/web'
-
 Rails.application.routes.draw do
   devise_for :users # This needs to come first so Devise can load its magic
 
