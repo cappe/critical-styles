@@ -5,8 +5,6 @@ class GenerateCriticalcssJob < ApplicationJob
 
   # Uses https://github.com/peterbe/minimalcss
 
-  # self.jid for current job id
-
   def perform(webpage_id:)
     webpage = Webpage.find(webpage_id)
     tmp_critical_css_filename = "#{SecureRandom.urlsafe_base64(64)}.css"
@@ -39,9 +37,9 @@ class GenerateCriticalcssJob < ApplicationJob
     # true => success (exit code 0)
     # false => non-zero exit code
     # nil => fail
-    success = $?.success?
+    success = $?&.success?
 
-    if success
+    if success == true
       webpage.critical_css.attach(
         io: File.open(tmp_critical_css),
         filename: tmp_critical_css_filename
