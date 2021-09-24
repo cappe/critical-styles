@@ -14,7 +14,7 @@ class GenerateCriticalcssJob < ApplicationJob
     command = [
       'runuser -m pptruser -c',
       '"',
-      "./node_modules/minimalcss/bin/minimalcss.js http://#{webpage.url} > #{tmp_critical_css}",
+      "./node_modules/minimalcss/bin/minimalcss.js #{webpage.url} > #{tmp_critical_css}",
       '"',
     ]
 
