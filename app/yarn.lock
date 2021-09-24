@@ -4289,10 +4289,9 @@ mini-css-extract-plugin@^0.9.0:
     schema-utils "^1.0.0"
     webpack-sources "^1.1.0"
 
-minimalcss@^0.11.2:
+minimalcss@peterbe/minimalcss#423/head:
   version "0.11.2"
-  resolved "https://registry.yarnpkg.com/minimalcss/-/minimalcss-0.11.2.tgz#c10490460c2c54cda094f8e34f79275070b8f0a6"
-  integrity sha512-Tc29sgszIY9UgZVFbQJ/iuveqEQTlslM2StN19ThBQySImJziw3yRPrgfI85tL5MJ2tzotQhCGAfyP+98q2dWA==
+  resolved "https://codeload.github.com/peterbe/minimalcss/tar.gz/a768b60cb9f16e7a4f30bb62f42305da89275c64"
   dependencies:
     cheerio "1.0.0-rc.3"
     css-tree "1.0.0-alpha.39"
