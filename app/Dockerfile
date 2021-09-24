@@ -1,8 +1,7 @@
-# syntax=docker/dockerfile:1
-
-# Partially copied from https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
-
-FROM ruby:2.7.2
+###############################################
+##### BASE BUILD
+FROM ruby:2.7.2 as base
+ARG BUNDLE_WITHOUT
 
 # Ensure latest packages for Yarn
 RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
@@ -30,13 +29,6 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable \
     NODE_PATH="/usr/local/share/.config/yarn/global/node_modules"
 
-WORKDIR /app
-
-COPY Gemfile /app/Gemfile
-COPY Gemfile.lock /app/Gemfile.lock
-
-RUN yarn install
-
 # Install puppeteer so it's available in the container.
 #RUN yarn global add puppeteer penthouse \
     # Add user so we don't need --no-sandbox.
@@ -46,13 +38,29 @@ RUN groupadd -r pptruser \
         && mkdir -p /home/pptruser \
         && chown -R pptruser:pptruser /home/pptruser
 
-RUN bundle install --jobs 5
+# Add the Rails app and set workdir
+WORKDIR /app
+ADD . ./
 
-# Add a script to be executed every time the container starts.
-COPY docker/entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
+###############################################
+##### DEVELOPMENT BUILD WITH TEST AND DEV DEPENDENCIES
+FROM base as development
 
-# Configure the main process to run when running the image
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# install all dependencies
+RUN bundle install -j5 --retry 3
+RUN yarn install
+
+################################################
+##### FINAL AND DEFAULT PRODUCTION STAGE.
+FROM base as production
+
+# Install only necessary dependencies, using --deployment flag (same as --frozen)
+# exlude dev and test dependencies, and already put things into vendor/bundle
+RUN bundle install --without development test --deployment -j5 --retry 3
+
+# Cleanup and make prod image lighter
+RUN rm -rf /var/lib/apt/lists/*
+
+# SET DEFAULT VARIABLES
+ENV RAILS_LOG_TO_STDOUT true
+ENV RAILS_ENV production
