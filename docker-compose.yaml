@@ -28,6 +28,7 @@ services:
       POSTGRES_PASSWORD: password
       REDIS_URL: redis://redis:6379/12
       RAILS_MAX_THREADS: 10
+      HOST_URL: http://localhost:3000
     cap_add:
       - SYS_ADMIN # Makes it possible to run Puppeteer
     depends_on:
@@ -45,6 +46,7 @@ services:
       POSTGRES_PASSWORD: password
       REDIS_URL: redis://redis:6379/12
       RAILS_MAX_THREADS: 10
+      HOST_URL: http://localhost:3000
     cap_add:
       - SYS_ADMIN # Makes it possible to run Puppeteer
     depends_on:
