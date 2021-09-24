@@ -58,7 +58,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - wp_db_data:/var/lib/mysql
 
@@ -66,9 +66,9 @@ services:
     image: wordpress:php7.4-apache
     restart: always
     ports:
-      - 8000:80
+      - 8002:80
     environment:
-      WORDPRESS_DB_HOST: wp_db:3306
+      WORDPRESS_DB_HOST: wp_db:3307
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
@@ -81,3 +81,8 @@ volumes:
   db_data: {}
   redis_data: {}
   wp_db_data: {}
+
+networks:
+  default:
+    external:
+      name: common
