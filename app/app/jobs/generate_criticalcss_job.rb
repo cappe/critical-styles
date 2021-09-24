@@ -8,11 +8,11 @@ class GenerateCriticalcssJob < ApplicationJob
   def perform(webpage_id:)
     webpage = Webpage.find(webpage_id)
     tmp_critical_css_filename = "#{SecureRandom.urlsafe_base64(64)}.css"
-    tmp_dir = Rails.root.join('tmp', 'storage').to_s
+    tmp_dir = ENV.fetch("TMP_STORAGE")
     tmp_critical_css = "#{tmp_dir}/#{tmp_critical_css_filename}"
 
     command = [
-      'runuser -m pptruser -c',
+      'runuser -m builder -c',
       '"',
       "./node_modules/minimalcss/bin/minimalcss.js #{webpage.url} > #{tmp_critical_css}",
       '"',

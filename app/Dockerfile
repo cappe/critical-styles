@@ -29,14 +29,16 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable \
     NODE_PATH="/usr/local/share/.config/yarn/global/node_modules"
 
+ENV TMP_STORAGE=/home/builder
+
 # Install puppeteer so it's available in the container.
 #RUN yarn global add puppeteer penthouse \
     # Add user so we don't need --no-sandbox.
     # same layer as npm install to keep re-chowned files from using up several hundred MBs more space
-RUN groupadd -r pptruser \
-        && useradd -r -g pptruser -G audio,video pptruser \
-        && mkdir -p /home/pptruser \
-        && chown -R pptruser:pptruser /home/pptruser
+RUN groupadd -r builder \
+        && useradd -r -g builder -G audio,video builder \
+        && mkdir -p $TMP_STORAGE \
+        && chown -R builder:builder $TMP_STORAGE
 
 # Add the Rails app and set workdir
 WORKDIR /app
@@ -44,4 +46,4 @@ ADD . ./
 
 # install all dependencies
 RUN bundle install -j5 --retry 3
-RUN yarn install
+RUN yarn install --check-files

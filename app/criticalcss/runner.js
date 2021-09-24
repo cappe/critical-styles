@@ -40,8 +40,8 @@ const argv = require('minimist')(process.argv.slice(2));
 })();
 
 // docker run -it --init --rm --cap-add=SYS_ADMIN \
-// -v $(pwd)/criticalcss/src:/home/pptruser/src \
-// -v $(pwd)/customer_data:/home/pptruser/customer_data \
+// -v $(pwd)/criticalcss/src:/home/builder/src \
+// -v $(pwd)/customer_data:/home/builder/customer_data \
 // -v /var/run/docker.sock:/var/run/docker.sock \
 // critical_criticalcss bash
 // critical_criticalcss node runner.js
