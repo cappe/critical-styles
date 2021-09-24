@@ -42,6 +42,14 @@ RUN groupadd -r pptruser \
 WORKDIR /app
 ADD . ./
 
-# install all dependencies
-RUN bundle install -j5 --retry 3
+# Install only necessary dependencies, using --deployment flag (same as --frozen)
+# exlude dev and test dependencies, and already put things into vendor/bundle
+RUN bundle install --without development test --deployment -j5 --retry 3
 RUN yarn install
+
+# Cleanup and make prod image lighter
+RUN rm -rf /var/lib/apt/lists/*
+
+# SET DEFAULT VARIABLES
+ENV RAILS_LOG_TO_STDOUT true
+ENV RAILS_ENV production
