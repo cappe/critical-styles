@@ -1,6 +1,6 @@
 class Webpage < ApplicationRecord
   has_many :jobs, dependent: :destroy
-  belongs_to :domain
+  belongs_to :domain, inverse_of: :webpages
 
   has_one :latest_job,
           -> { order(created_at: :desc) },
