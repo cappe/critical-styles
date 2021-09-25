@@ -1,49 +1,75 @@
 ###############################################
 ##### BASE BUILD
 FROM ruby:2.7.2
-ARG BUNDLE_WITHOUT
 
-# Ensure latest packages for Yarn
-RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+# How to run Puppeteer in Docker (required by MinimalCSS):
+# https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-puppeteer-in-docker
 
-# Allow apt to work with https-based sources
-RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
-    apt-transport-https \
-    nodejs \
-    postgresql-client \
-    yarn \
-    wget \
-    gnupg \
-        && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-        && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-        && apt-get update \
-        && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
-          --no-install-recommends \
-        && rm -rf /var/lib/apt/lists/*
+# Uncomment to skip the chromium download when installing puppeteer. If you do,
+# you'll need to launch puppeteer with:
+#     browser.launch({executablePath: 'google-chrome-stable'})
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/google-chrome
+ENV APP_PATH /app
+ENV BUILDER_PATH /home/builder
 
-# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
-# You'll need to launch puppeteer with: browser.launch({ executablePath: 'google-chrome-stable' })
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable \
-    NODE_PATH="/usr/local/share/.config/yarn/global/node_modules"
+# Installs:
+#   - Latest chrome dev package
+#   - Some fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai, and a few others)
+#   - Yarn
+#
+# Note:
+# This also installs the necessary libs to make the bundled version of Chromium that Puppeteer
+# installs, work. However, the bundled version is not downloaded/used but too lazy to figure
+# out which libs should be removed.
+RUN apt-get update \
+    && apt-get install -y wget gnupg \
+    && wget -q -O - https://deb.nodesource.com/setup_12.x | bash - \
+    && wget -q -O - https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && sh -c 'echo "deb https://dl.yarnpkg.com/debian/ stable main" >> /etc/apt/sources.list.d/yarn.list' \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        postgresql-client \
+        google-chrome-stable \
+        fonts-ipafont-gothic \
+        fonts-wqy-zenhei \
+        fonts-thai-tlwg \
+        fonts-kacst \
+        fonts-freefont-ttf \
+        libxss1 \
+        nodejs \
+        yarn \
+    && rm -rf /var/lib/apt/lists/*
 
-ENV TMP_STORAGE=/home/builder
+WORKDIR $APP_PATH
 
-# Install puppeteer so it's available in the container.
-#RUN yarn global add puppeteer penthouse \
-    # Add user so we don't need --no-sandbox.
-    # same layer as npm install to keep re-chowned files from using up several hundred MBs more space
-RUN groupadd -r builder \
-        && useradd -r -g builder -G audio,video builder \
-        && mkdir -p $TMP_STORAGE \
-        && chown -R builder:builder $TMP_STORAGE
+ADD package.json \
+    yarn.lock \
+    ./
+RUN yarn install
 
-# Add the Rails app and set workdir
-WORKDIR /app
+ADD Gemfile \
+    Gemfile.lock \
+    ./
+RUN bundle install -j5 --retry 3
+
 ADD . ./
 
-# install all dependencies
-RUN bundle install -j5 --retry 3
-RUN yarn install --check-files
+# Install puppeteer so it's available in the container.
+# useradd flags here: https://man7.org/linux/man-pages/man8/useradd.8.html
+RUN groupadd -r builder \
+    && useradd \
+        --create-home \
+        --system \
+        --gid builder \
+        --groups audio,video \
+        builder \
+    && mkdir -p $BUILDER_PATH/storage \
+    && cd $BUILDER_PATH \
+    && yarn init -y \
+    && yarn add \
+        puppeteer \
+        peterbe/minimalcss#423/head \
+    && chown -R builder:builder $BUILDER_PATH
