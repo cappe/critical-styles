@@ -13,6 +13,10 @@ ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/google-chrome
 ENV APP_PATH /app
 ENV BUILDER_PATH /home/builder
 
+ENV RAILS_ENV production
+ENV RAILS_SERVE_STATIC_FILES true
+ENV RAILS_LOG_TO_STDOUT true
+
 # Installs:
 #   - Latest chrome dev package
 #   - Some fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai, and a few others)
