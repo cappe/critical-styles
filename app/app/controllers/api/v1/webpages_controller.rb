@@ -28,6 +28,15 @@ class Api::V1::WebpagesController < Api::V1::ApiController
     render json: WebpageSerializer.new(webpages)
   end
 
+  def update
+    webpage = current_user.webpages.find(params[:id])
+    webpage.regenerate_critical_css! do |job|
+      job.user = current_user
+    end
+
+    head :ok
+  end
+
   private
 
     def current_domain

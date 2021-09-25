@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   namespace :api, constraints: lambda { |req| req.format == :json } do
     scope module: :v1, path: 'v1' do
       resource :user, only: :show
-      resources :domains, only: [:index] do
-        resources :webpages, only: [:create]
+      resources :domains, only: [:index], shallow: true do
+        resources :webpages, only: [:create, :update]
       end
     end
   end
