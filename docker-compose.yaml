@@ -18,6 +18,7 @@ services:
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     stdin_open: true
     tty: true
+    init: true # https://docs.docker.com/compose/compose-file/compose-file-v3/#init
     volumes:
       - ./app:/app
     ports:
@@ -37,6 +38,7 @@ services:
     image: critical_web:latest
     stdin_open: true
     tty: true
+    init: true # https://docs.docker.com/compose/compose-file/compose-file-v3/#init
     volumes:
       - ./app:/app
     command: bundle exec sidekiq
