@@ -8,13 +8,14 @@ class GenerateCriticalcssJob < ApplicationJob
   def perform(webpage_id:)
     webpage = Webpage.find(webpage_id)
     tmp_critical_css_filename = "#{SecureRandom.urlsafe_base64(64)}.css"
-    tmp_dir = ENV.fetch("TMP_STORAGE")
-    tmp_critical_css = "#{tmp_dir}/#{tmp_critical_css_filename}"
+    builder_path = ENV.fetch("BUILDER_PATH")
+    tmp_storage = "#{builder_path}/storage"
+    tmp_critical_css = "#{tmp_storage}/#{tmp_critical_css_filename}"
 
     command = [
       'runuser -m builder -c',
       '"',
-      "./node_modules/minimalcss/bin/minimalcss.js #{webpage.url} > #{tmp_critical_css}",
+      "#{builder_path}/node_modules/minimalcss/bin/minimalcss.js #{webpage.url} > #{tmp_critical_css}",
       '"',
     ]
 
