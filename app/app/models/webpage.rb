@@ -25,7 +25,12 @@ class Webpage < ApplicationRecord
   end
 
   def critical_css_url
-    critical_css.url
+    Rails.application.routes.url_helpers.rails_blob_url(
+      critical_css&.blob,
+      Rails.application.config.action_mailer.default_url_options
+    )
+  rescue
+    nil
   end
 
   def critical_css_filename
