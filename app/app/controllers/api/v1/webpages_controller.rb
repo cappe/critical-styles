@@ -10,15 +10,9 @@ class Api::V1::WebpagesController < Api::V1::ApiController
       webpage.path = webpage_path
 
       if webpage.save
-        active_job = GenerateCriticalcssJob.perform_later(webpage_id: webpage.id)
-
-        job = Job.new
-        job.status = :queued
-        job.jid = active_job&.provider_job_id
-        job.domain = current_domain
-        job.user = current_user
-        job.webpage = webpage
-        job.save!
+        webpage.generate_critical_css! do |job|
+          job.user = current_user
+        end
       else
         # TODO: How to handle this case?
         # raise ActiveRecord::Rollback, "Creating a new webpage failed, transaction rolling back..."

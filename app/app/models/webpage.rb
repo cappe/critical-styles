@@ -31,4 +31,23 @@ class Webpage < ApplicationRecord
   def critical_css_filename
     critical_css.filename
   end
+
+  def generate_critical_css!
+    unless block_given?
+      raise 'gimme a block to setup the data!'
+    end
+
+    job = Job.new
+    job.status = :queued
+    job.webpage = self
+    job.domain = self.domain
+    job.jid = GenerateCriticalcssJob
+                .perform_later(webpage_id: self.id)
+                &.provider_job_id
+
+    yield job # Allows the caller to set the user who initiated the job
+
+    job.save!
+  end
+  alias_method :regenerate_critical_css!, :generate_critical_css!
 end
