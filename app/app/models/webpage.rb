@@ -26,10 +26,11 @@ class Webpage < ApplicationRecord
 
   def critical_css_url
     Rails.application.routes.url_helpers.rails_blob_url(
-      critical_css&.blob,
-      Rails.application.config.action_mailer.default_url_options
+      critical_css.blob,
     )
   rescue
+    # If this happens, the critical css hasn't been generated for one reason
+    # or another. Return nil and think later if this could be handled better.
     nil
   end
 

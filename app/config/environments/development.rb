@@ -76,7 +76,9 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  default_url_options = { host: ENV.fetch("HOST_URL") }
+  config.action_mailer.default_url_options = default_url_options
+  routes.default_url_options = default_url_options
 
   # http://meta-lambda.com/rails-5-web-console-and-docker
   config.web_console.allowed_ips = Socket.ip_address_list.reduce([]) do |res, addrinfo|
