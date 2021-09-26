@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     scope module: :v1, path: 'v1' do
       resource :user, only: :show
       resources :domains, only: [:index], shallow: true do
-        resources :webpages, only: [:create, :update]
+        resources :webpages, only: [:show, :create, :update]
       end
     end
   end

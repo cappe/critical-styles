@@ -1,4 +1,15 @@
 class Api::V1::WebpagesController < Api::V1::ApiController
+
+  def show
+    webpage = current_user
+                .webpages
+                .with_attached_critical_css
+                .with_latest_job
+                .find(params[:id])
+
+    render json: WebpageSerializer.new(webpage)
+  end
+
   def create
     webpage_paths = params[:webpage_paths]&.values || []
     current_webpages = current_domain.webpages
