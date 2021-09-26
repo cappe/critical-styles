@@ -22,6 +22,8 @@ class GenerateCriticalcssJob < ApplicationJob
     pid = Process.spawn(command.join(' '))
     puts "Started a process with pid: #{pid}..."
 
+    process_was_killed = false
+
     # Found out that minimalcss.js hangs sometimes. Before figuring out
     # what's up, let's have a timeout that'd kill hanging processes.
     begin
@@ -33,6 +35,7 @@ class GenerateCriticalcssJob < ApplicationJob
     rescue Timeout::Error
       puts "Process (pid: #{pid}) not finished in time, killing it..."
       Process.kill('TERM', pid)
+      process_was_killed = true
     end
 
     # true => success (exit code 0)
@@ -40,7 +43,7 @@ class GenerateCriticalcssJob < ApplicationJob
     # nil => fail
     success = $?&.success?
 
-    if success == true
+    if success == true && !process_was_killed
       webpage.critical_css.attach(
         io: File.open(tmp_critical_css),
         filename: tmp_critical_css_filename
