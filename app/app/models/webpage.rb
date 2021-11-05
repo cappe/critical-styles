@@ -18,7 +18,7 @@ class Webpage < ApplicationRecord
   validates :path,
             presence: true,
             length: { maximum: 2048 },
-            uniqueness: true
+            uniqueness: { scope: :domain_id }
 
   def url
     self.domain.url + self.path

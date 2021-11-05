@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_29_141645) do
+ActiveRecord::Schema.define(version: 2021_11_05_115030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 2021_08_29_141645) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["domain_id"], name: "index_webpages_on_domain_id"
-    t.index ["path"], name: "index_webpages_on_path", unique: true
+    t.index ["path", "domain_id"], name: "index_webpages_on_path_and_domain_id", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
